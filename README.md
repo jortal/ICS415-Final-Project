@@ -1,38 +1,17 @@
 ICS415-Final-Project - Developing a Website
 ====================
 
-![screenshot](https://raw.github.com/ics-software-engineering/play-example-login/master/doc/play-example-login.png)
+![screenshot](https://raw.github.com/https://raw.github.com/jortal/ICS415-Final-Project/master/doc/doc.png)
 
 Overview
 --------
 
-This is a Play application illustrating a simple approach to authentication and authorization.
+A simple Play application created for the ICS415 Final Project.
 
-**Authentication is done in the following way:**
+**Features:**
 
-  * The [models package](https://github.com/ics-software-engineering/play-example-login/tree/master/app/models) implements
-    the UserInfo and UserInfoDB classes to hold credential information.  Credentials are initialized in the
-    [Global](https://github.com/ics-software-engineering/play-example-login/blob/master/app/Global.java) class.
-    
-  * The [Login view](https://github.com/ics-software-engineering/play-example-login/blob/master/app/views/Login.scala.html)
-    provides a simple login form. The [LoginFormData.validate() method](https://github.com/ics-software-engineering/play-example-login/blob/master/app/views/formdata/LoginFormData.java#L28-38)
-    determines if the login succeeds and raises ValidationErrors if invalid credentials are entered.
-    
-  * The [Login controller method](https://github.com/ics-software-engineering/play-example-login/blob/master/app/controllers/Application.java#L36-59)
-    adds the authenticated user's email to the session object, or else returns the Login view with errors. 
+Login/logout: A log in form determines whether or not the credentials are valid and proceeds to the appropriate page.
 
-**Authorization is done in the following way:**   
+Certain links appear in the navbar according to what type of user has logged in.
 
-  * The [Secured class](https://github.com/ics-software-engineering/play-example-login/blob/master/app/controllers/Secured.java)
-    supports authorization by extending the Security.Authenticator class and overriding the getUsername() and onUnauthorized()
-    methods.  These methods are used to restrict access to the profile page.
-    This class also implements helper methods (getUser(), isLoggedIn(), and getUserInfo()) that enable controllers to 
-    adjust the view depending upon whether the user is logged in or not.
-    
-  * The [Application controller class](https://github.com/ics-software-engineering/play-example-login/blob/master/app/controllers/Application.java) 
-    annotates the controller methods that requires authenticated users (logout() and profile()) 
-    with @Security.Authenticated(Secured.java).
-    
-  * The [Main.scala.html template](https://github.com/ics-software-engineering/play-example-login/blob/master/app/views/Main.scala.html)
-    implements a [context sensitive navbar](https://github.com/ics-software-engineering/play-example-login/blob/master/app/views/Main.scala.html#L34-47)
-    that displays different links depending upon whether the user is authenticated or unauthenticated.
+The website is designed to be responsive. Twitter Bootstrap was used to make this possible.

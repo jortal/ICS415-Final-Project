@@ -1,3 +1,61 @@
 body {
   padding-top: 70px;  /* Move body of page below navbar. */
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    font-family: 'Lato', sans-serif !important;
+    color: #333;  
+}
+
+html {
+    margin: 0;
+}
+
+.centered {
+  text-align: center;
+}
+
+.grid img { 
+  opacity: .7; 
+  max-width: 300px;
+  max-height: 200px;
+}
+
+.grid img:hover { 
+  opacity:1; 
+}
+
+.navbar .nav > li > a {
+    color: #F8F8F8;
+    font-size: 15px;
+    font-weight: bold;
+    text-shadow: none;
+    -webkit-transition: all .2s linear;
+    -moz-transition: all .2s linear;
+    -ms-transition: all .2s linear;
+    -o-transition: all .2s linear;
+    transition: all .2s linear; 
+}
+
+.navbar>.container .navbar-brand {
+    color: #F8F8F8;
+    font-size: 15px;
+    font-weight: bold;
+    text-shadow: none;
+    -webkit-transition: all .2s linear;
+    -moz-transition: all .2s linear;
+    -ms-transition: all .2s linear;
+    -o-transition: all .2s linear;
+    transition: all .2s linear;   
+}
+
+.navbar-collapse .navbar-text:last-child {
+    color: #F8F8F8;
+    font-size: 15px;
+    font-weight: bold;
+    text-shadow: none;
+    -webkit-transition: all .2s linear;
+    -moz-transition: all .2s linear;
+    -ms-transition: all .2s linear;
+    -o-transition: all .2s linear;
+    transition: all .2s linear; 
 }

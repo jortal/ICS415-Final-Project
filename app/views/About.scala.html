@@ -1,0 +1,56 @@
+@(page: String, isLoggedIn: Boolean, userInfo: UserInfo, isAdmin: Boolean) 
+@Main(page, isLoggedIn, userInfo, isAdmin) {
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <h2>&lt;insert awesome about img&gt;</h2>
+            
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing
+                elit. Donec viverra mauris a nunc suscipit, et elementum
+                leo euismod. Ut sodales placerat odio. Integer fringilla
+                tempor sapien. Morbi nec hendrerit eros. Vivamus tempor
+                et odio a tincidunt. Nullam placerat tincidunt sapien,
+                vitae rhoncus risus molestie id. Etiam viverra velit
+                elit, ac luctus ligula rhoncus eu. Maecenas sit amet
+                augue et augue luctus consequat nec sit amet nulla.</p>
+        </div>
+    </div>
+</div>
+<div class="container" style="margin-top:15px; margin-bottom:30px;">
+  <div class="row centered grid">
+    <div class="col-sm-4">
+      <img src=@routes.Assets.at("images/bootstrap-logo.png")>
+    </div>
+    <div class="col-sm-4">
+      <img src=@routes.Assets.at("images/chrome-logo.png")>
+    </div>  
+    <div class="col-sm-4">
+      <img src=@routes.Assets.at("images/cloudbees-logo.png")>
+    </div>        
+  </div>
+  
+  <div class="row centered grid" style="margin:15px 0px;">
+    <div class="col-sm-4">
+      <img src=@routes.Assets.at("images/eclipse-logo.png")>
+    </div>
+    <div class="col-sm-4">
+      <img src=@routes.Assets.at("images/github-logo.png")>
+    </div>  
+    <div class="col-sm-4">
+      <img src=@routes.Assets.at("images/java-logo.png")>
+  </div>        
+    
+  <div class="row centered grid">
+    <div class="col-sm-4">
+    </div>
+    <div class="col-sm-4">
+      <img src=@routes.Assets.at("images/play-logo.png")>
+    </div>  
+    <div class="col-sm-4">
+    </div>        
+  </div>
+    
+  </div>
+  
+</div>
+}

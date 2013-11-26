@@ -6,8 +6,10 @@ import play.mvc.Result;
 import views.html.Index;
 import views.html.Profile;
 import views.html.Login;
+import views.html.About;
 import views.formdata.LoginFormData;
 import play.mvc.Security;
+import models.UserInfo;
 
 /**
  * Implements the controllers for this application.
@@ -15,11 +17,33 @@ import play.mvc.Security;
 public class Application extends Controller {
 
   /**
+   * Provides the About page.
+   * @return The About page. 
+   */
+  public static Result about() {
+    UserInfo userInfo = Secured.getUserInfo(ctx());
+    if (userInfo != null) {
+      if (userInfo.getEmail() == "admin@example.com") {
+        boolean bool = true;
+        return ok(About.render("About", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), bool));        
+      }
+    }    
+    return ok(About.render("About", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), false));
+  }
+  
+  /**
    * Provides the Index page.
    * @return The Index page. 
    */
   public static Result index() {
-    return ok(Index.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
+    UserInfo userInfo = Secured.getUserInfo(ctx());
+    if (userInfo != null) {
+      if (userInfo.getEmail() == "admin@example.com") {
+        boolean bool = true;
+        return ok(Index.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), bool));        
+      }
+    }
+    return ok(Index.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), false));
   }
   
   /**
@@ -28,7 +52,7 @@ public class Application extends Controller {
    */
   public static Result login() {
     Form<LoginFormData> formData = Form.form(LoginFormData.class);
-    return ok(Login.render("Login", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
+    return ok(Login.render("Login", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), false, formData));
   }
 
   /**
@@ -46,13 +70,13 @@ public class Application extends Controller {
 
     if (formData.hasErrors()) {
       flash("error", "Login credentials not valid.");
-      return badRequest(Login.render("Login", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), formData));
+      return badRequest(Login.render("Login", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), false, formData));
     }
     else {
       // email/password OK, so now we set the session variable and only go to authenticated pages.
       session().clear();
       session("email", formData.get().email);
-      return redirect(routes.Application.profile());
+      return redirect(routes.Application.index());
     }
   }
   
@@ -72,6 +96,11 @@ public class Application extends Controller {
    */
   @Security.Authenticated(Secured.class)
   public static Result profile() {
-    return ok(Profile.render("Profile", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx())));
+    UserInfo userInfo = Secured.getUserInfo(ctx());    
+    if (userInfo.getEmail() == "admin@example.com") {
+      boolean bool = true;    
+      return ok(Profile.render("Profile", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), bool));
+    }
+    return ok(Profile.render("Profile", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), false));    
   }
 }

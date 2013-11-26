@@ -1,7 +1,7 @@
 ICS415-Final-Project - Developing a Website
 ====================
 
-![screenshot](https://raw.github.com/https://raw.github.com/jortal/ICS415-Final-Project/master/doc/doc.png)
+![screenshot](https://raw.github.com/jortal/ICS415-Final-Project/master/doc/doc.png)
 
 Overview
 --------

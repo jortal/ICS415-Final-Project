@@ -1,4 +1,4 @@
-name := "play-example-login"
+name := "ics415-final"
 
 version := "1.0-SNAPSHOT"
 

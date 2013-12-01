@@ -14,4 +14,4 @@ Login/logout: A log in form determines whether or not the credentials are valid 
 
 Certain links appear in the navbar according to what type of user has logged in.
 
-The website is designed to be responsive. Twitter Bootstrap was used to make this possible.
+The website is designed to be responsive. 

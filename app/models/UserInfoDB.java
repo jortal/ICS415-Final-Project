@@ -1,6 +1,8 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +41,15 @@ public class UserInfoDB {
   public static UserInfo getUser(String email) {
     return userinfos.get((email == null) ? "" : email);
   }
+  
+  
+  /**
+   * Returns list of users.
+   * @return the list of users.
+   */
+  public static List<UserInfo> getUsers() {
+    return new ArrayList<>(userinfos.values());
+  }
 
   /**
    * Returns true if email and password are valid credentials.
@@ -54,5 +65,13 @@ public class UserInfoDB {
             isUser(email) 
             &&
             getUser(email).getPassword().equals(password));
+  }
+  
+  /**
+   * Deletes user from the database.
+   * @param email The email of the user.
+   */
+  public static void deleteUser(String email) {
+    userinfos.remove(email);
   }
 }

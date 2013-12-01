@@ -4,12 +4,13 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.Index;
-import views.html.Profile;
+import views.html.Users;
 import views.html.Login;
 import views.html.About;
 import views.formdata.LoginFormData;
 import play.mvc.Security;
 import models.UserInfo;
+import models.UserInfoDB;
 
 /**
  * Implements the controllers for this application.
@@ -30,7 +31,7 @@ public class Application extends Controller {
     }    
     return ok(About.render("About", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), false));
   }
-  
+    
   /**
    * Provides the Index page.
    * @return The Index page. 
@@ -91,16 +92,30 @@ public class Application extends Controller {
   }
   
   /**
-   * Provides the Profile page (only to authenticated users).
-   * @return The Profile page. 
+   * Provides the Users page (only to authenticated users).
+   * @return The Users page. 
    */
   @Security.Authenticated(Secured.class)
-  public static Result profile() {
+  public static Result users() {
     UserInfo userInfo = Secured.getUserInfo(ctx());    
     if (userInfo.getEmail() == "admin@example.com") {
       boolean bool = true;    
-      return ok(Profile.render("Profile", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), bool));
+      return ok(Users.render("Profile", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), bool,
+                UserInfoDB.getUsers()));
     }
-    return ok(Profile.render("Profile", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), false));    
+    return ok(Users.render("Profile", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), false,
+              UserInfoDB.getUsers()));    
   }
+
+  /**
+   * Deletes a user by e-mail.
+   * @param email The email of the user to be deleted.
+   */
+  @Security.Authenticated(Secured.class)
+  public static Result deleteUser(String email) {
+    UserInfo userInfo = Secured.getUserInfo(ctx());    
+    UserInfoDB.deleteUser(email);
+    return redirect(routes.Application.index());
+  }
+  
 }

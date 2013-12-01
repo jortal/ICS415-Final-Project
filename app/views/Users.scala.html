@@ -1,0 +1,29 @@
+@(page: String, isLoggedIn: Boolean, userInfo: UserInfo, isAdmin: Boolean, users: List[UserInfo])
+
+@Main(page, isLoggedIn, userInfo, isAdmin) {
+   <div class="container">
+     <p>In the profile page.</p> 
+     <p>Only authenticated users can visit this page.  Try logging out and then attempting to retrieve /profile.</p>
+     
+     <h2>Current Users</h2>
+     <table class="table table-striped table-bordered">
+       <thead>
+         <tr>
+           <th>Email</th>
+           <th>Name</th>
+           <th>Password</th>
+         </tr>
+       </thead>
+     @for(user <- users) {
+       <tr>
+         <td>@user.getEmail()</td>
+         <td>@user.getName()</td>
+         <td>@user.getPassword()</td>
+         @if(isAdmin) {
+         <td><a href="@routes.Application.deleteUser(user.getEmail())">Delete</a></td>
+         }
+       </tr>
+     }
+     </table>
+   </div>
+}

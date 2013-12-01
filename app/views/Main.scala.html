@@ -35,7 +35,7 @@
             <li><a href="#">Features</a></li>
             <li class="@("active".when(page == "About"))"><a href="@routes.Application.about()">About</a></li>            
           @if(isLoggedIn) {
-            <li class="@("active".when(page == "Profile"))"><a href="@routes.Application.profile()">Profile</a></li>
+            <li class="@("active".when(page == "Profile"))"><a href="@routes.Application.users()">Users</a></li>
           }
           @if(isAdmin) {
             <li><a href="#">Admin CP</a></li>          
@@ -43,7 +43,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           @if(isLoggedIn) {
-            <li><p class="navbar-text">@userInfo.getEmail()</p></li>
+            <li><a href="/">@userInfo.getEmail()</a></li>
             <li><a href="@routes.Application.logout()">Logout</a></li>
           } else {
             <li><a href="@routes.Application.login()">Login</a></li>

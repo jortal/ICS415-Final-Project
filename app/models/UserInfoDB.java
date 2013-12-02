@@ -4,15 +4,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import views.formdata.UserFormData;
 
 /**
- * Provides an in-memory repository for UserInfo.
+ * Provides a MySQL repository for UserInfo.
  * Storing credentials in the clear is kind of bogus.
- * @author Philip Johnson
+ * @author Philip Johnson modified by Jonathan Ortal
  */
 public class UserInfoDB {
   
-  private static Map<String, UserInfo> userinfos = new HashMap<String, UserInfo>();
+  // private static Map<String, UserInfo> userinfos = new HashMap<String, UserInfo>();
+  public static void addUser(String user, UserFormData formData) {
+    /**
+    UserInfo userInfoCheck = UserInfo.find().where().eq("email", user).findUnique();
+    if (userInfoCheck != null) {
+      throw new RuntimeException("E-mail already exists: " + user);
+    }  
+    */  
+    UserInfo userInfo = new UserInfo(formData.name, formData.email, formData.password);
+    userInfo.save();
+  }
+  
   
   /**
    * Adds the specified user to the UserInfoDB.
@@ -21,7 +33,9 @@ public class UserInfoDB {
    * @param password Their password. 
    */
   public static void addUserInfo(String name, String email, String password) {
-    userinfos.put(email, new UserInfo(name, email, password));
+    // userinfos.put(email, new UserInfo(name, email, password));
+    UserInfo userInfo = new UserInfo(name, email, password);
+    userInfo.save();
   }
   
   /**
@@ -30,7 +44,7 @@ public class UserInfoDB {
    * @return True if known user.
    */
   public static boolean isUser(String email) {
-    return userinfos.containsKey(email);
+    return (UserInfo.find().where().eq("email", email).findUnique() != null);
   }
 
   /**
@@ -39,7 +53,7 @@ public class UserInfoDB {
    * @return The UserInfo.
    */
   public static UserInfo getUser(String email) {
-    return userinfos.get((email == null) ? "" : email);
+    return UserInfo.find().where().eq("email", email).findUnique();
   }
   
   
@@ -48,7 +62,7 @@ public class UserInfoDB {
    * @return the list of users.
    */
   public static List<UserInfo> getUsers() {
-    return new ArrayList<>(userinfos.values());
+    return UserInfo.find().all();
   }
 
   /**
@@ -72,6 +86,6 @@ public class UserInfoDB {
    * @param email The email of the user.
    */
   public static void deleteUser(String email) {
-    userinfos.remove(email);
+    UserInfo.find().where().eq("email", email).findUnique().delete();
   }
 }

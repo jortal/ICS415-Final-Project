@@ -1,22 +1,70 @@
 package controllers;
 
+import java.util.Map;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.Index;
+import views.html.NewUser;
 import views.html.Users;
 import views.html.Login;
 import views.html.About;
+import views.html.Features;
 import views.formdata.LoginFormData;
 import play.mvc.Security;
 import models.UserInfo;
 import models.UserInfoDB;
+import views.formdata.UserFormData;
 
 /**
  * Implements the controllers for this application.
  */
 public class Application extends Controller {
 
+  @Security.Authenticated(Secured.class)  
+  public static Result newUser() {
+    UserInfo userInfo = UserInfoDB.getUser(request().username());
+    Boolean isLoggedIn = (userInfo != null);
+    String user = userInfo.getEmail();
+    UserFormData data = new UserFormData();
+    Form<UserFormData> formData = Form.form(UserFormData.class).fill(data);
+    if (isLoggedIn && userInfo.getEmail() != null) {
+      return ok(NewUser.render("New", isLoggedIn, userInfo, true, formData));
+    }
+    else { return redirect(routes.Application.index()); }
+  }
+
+  @Security.Authenticated(Secured.class)  
+  public static Result postUser() {
+    Form<UserFormData> formData = Form.form(UserFormData.class).bindFromRequest();
+    UserInfo userInfo = UserInfoDB.getUser(request().username());
+    Boolean isLoggedIn = (userInfo != null);
+    String user = userInfo.getEmail();
+    if (formData.hasErrors()) {
+      return badRequest(NewUser.render("New", isLoggedIn, userInfo, true, formData));
+    }
+    else {
+      UserFormData data = formData.get();
+      UserInfoDB.addUser(user, data);
+      return redirect(routes.Application.index());
+    }    
+  }  
+
+  /**
+   * Provides the About page.
+   * @return The About page. 
+   */
+  public static Result features() {
+    UserInfo userInfo = Secured.getUserInfo(ctx());
+    if (userInfo != null) {
+      if (userInfo.getEmail().equals("admin@example.com")) {
+        boolean bool = true;
+        return ok(Features.render("Features", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), bool));        
+      }
+    }    
+    return ok(Features.render("Features", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), false));
+  }  
+  
   /**
    * Provides the About page.
    * @return The About page. 
@@ -24,7 +72,7 @@ public class Application extends Controller {
   public static Result about() {
     UserInfo userInfo = Secured.getUserInfo(ctx());
     if (userInfo != null) {
-      if (userInfo.getEmail() == "admin@example.com") {
+      if (userInfo.getEmail().equals("admin@example.com")) {
         boolean bool = true;
         return ok(About.render("About", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), bool));        
       }
@@ -39,7 +87,7 @@ public class Application extends Controller {
   public static Result index() {
     UserInfo userInfo = Secured.getUserInfo(ctx());
     if (userInfo != null) {
-      if (userInfo.getEmail() == "admin@example.com") {
+      if (userInfo.getEmail().equals("admin@example.com")) {
         boolean bool = true;
         return ok(Index.render("Home", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), bool));        
       }
@@ -98,12 +146,12 @@ public class Application extends Controller {
   @Security.Authenticated(Secured.class)
   public static Result users() {
     UserInfo userInfo = Secured.getUserInfo(ctx());    
-    if (userInfo.getEmail() == "admin@example.com") {
+    if (userInfo.getEmail().equals("admin@example.com")) {
       boolean bool = true;    
-      return ok(Users.render("Profile", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), bool,
+      return ok(Users.render("Users", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), bool,
                 UserInfoDB.getUsers()));
     }
-    return ok(Users.render("Profile", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), false,
+    return ok(Users.render("Users", Secured.isLoggedIn(ctx()), Secured.getUserInfo(ctx()), false,
               UserInfoDB.getUsers()));    
   }
 

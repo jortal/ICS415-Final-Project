@@ -6,9 +6,12 @@
 GET     /                           controllers.Application.index()
 GET     /about                      controllers.Application.about()
 GET     /delete                     controllers.Application.deleteUser(email: String)
+GET     /features                   controllers.Application.features()
 GET     /login                      controllers.Application.login()
 POST    /login                      controllers.Application.postLogin()
 GET     /users                      controllers.Application.users()
+GET     /newuser                    controllers.Application.newUser()
+POST    /newuser                    controllers.Application.postUser()
 GET     /logout                     controllers.Application.logout()
 
 # Map static resources from the /public folder to the /assets URL path

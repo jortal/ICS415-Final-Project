@@ -1,14 +1,28 @@
 package models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
+
 /**
  * A simple representation of a user. 
- * @author Philip Johnson
+ * @author Philip Johnson modified by Jonathan Ortal
  */
-public class UserInfo {
+
+@Entity
+public class UserInfo extends Model{
  
+  private static final long serialVersionUID = 1L;
+  
+  @Id
   private String name;
   private String email;
   private String password;
+  
+  // @OneToOne
+  // private UserInfo userInfo;
   
   /**
    * Creates a new UserInfo instance.
@@ -21,6 +35,14 @@ public class UserInfo {
     this.email = email;
     this.password = password;
   }
+  
+  /**
+   * The EBean ORM finder method for database queries on LastTimeStamp.
+   * @return The finder method for products.
+   */
+  public static Finder<Long, UserInfo> find() {
+    return new Finder<Long, UserInfo>(Long.class, UserInfo.class);
+  }  
   
   /**
    * @return the name
